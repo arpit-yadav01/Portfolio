@@ -25,8 +25,10 @@ const app = express();
 app.use(express.json());
 
 // ✅ CORS CONFIG (FIXED)
+// ✅ CORS CONFIG
 const allowedOrigins = [
   "http://localhost:5173",
+  "http://localhost:5174", // in case you have multiple dev servers
   "https://portfolio-ten-woad-26.vercel.app",
   "https://portfolio-git-main-arpit-yadav01s-projects.vercel.app",
 ];
@@ -34,12 +36,20 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or Postman)
       if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
+      
+      // Allow any Vercel deployment URL
+      if (origin.endsWith(".vercel.app")) {
+        return callback(null, true);
       }
+      
+      // Allow specific origins
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      
+      callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
   })
