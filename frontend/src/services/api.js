@@ -180,11 +180,9 @@
 // };
 
 
-
 const API_BASE = import.meta.env.VITE_API_BASE;
 
-// ================= AUTH =================
-
+// AUTH
 export const loginAdmin = async (credentials) => {
   const res = await fetch(`${API_BASE}/admin/login`, {
     method: "POST",
@@ -194,138 +192,37 @@ export const loginAdmin = async (credentials) => {
   return res.json();
 };
 
-// ================= ABOUT =================
-
-export const updateAbout = async (bio, token) => {
-  const res = await fetch(`${API_BASE}/about`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ bio }),
-  });
-  return res.json();
-};
-
+// ABOUT
 export const getAbout = async () => {
   const res = await fetch(`${API_BASE}/about`);
   return res.json();
 };
 
-// ================= SKILLS =================
-
+// SKILLS
 export const getSkills = async () => {
   const res = await fetch(`${API_BASE}/skills`);
   return res.json();
 };
 
-export const addSkill = async (skill, token) => {
-  const res = await fetch(`${API_BASE}/skills`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(skill),
-  });
-  return res.json();
-};
-
-export const deleteSkill = async (id, token) => {
-  const res = await fetch(`${API_BASE}/skills/${id}`, {
-    method: "DELETE",
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return res.json();
-};
-
-// ================= PROJECTS =================
-
+// PROJECTS
 export const getProjects = async () => {
   const res = await fetch(`${API_BASE}/projects`);
   return res.json();
 };
 
-export const getProjectById = async (id) => {
-  const res = await fetch(`${API_BASE}/projects/${id}`);
-  return res.json();
-};
-
-export const addProject = async (project, token) => {
-  const res = await fetch(`${API_BASE}/projects`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(project),
-  });
-  return res.json();
-};
-
-export const deleteProject = async (id, token) => {
-  const res = await fetch(`${API_BASE}/projects/${id}`, {
-    method: "DELETE",
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return res.json();
-};
-
-// ================= EXPERIENCE =================
-
+// EXPERIENCE
 export const getExperience = async () => {
   const res = await fetch(`${API_BASE}/experience`);
   return res.json();
 };
 
-export const addExperience = async (data, token) => {
-  const res = await fetch(`${API_BASE}/experience`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(data),
-  });
-  return res.json();
-};
-
-export const deleteExperience = async (id, token) => {
-  await fetch(`${API_BASE}/experience/${id}`, {
-    method: "DELETE",
-    headers: { Authorization: `Bearer ${token}` },
-  });
-};
-
-// ================= EDUCATION =================
-
+// EDUCATION
 export const getEducation = async () => {
   const res = await fetch(`${API_BASE}/education`);
   return res.json();
 };
 
-export const addEducation = async (data, token) => {
-  const res = await fetch(`${API_BASE}/education`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(data),
-  });
-  return res.json();
-};
-
-export const deleteEducation = async (id, token) => {
-  await fetch(`${API_BASE}/education/${id}`, {
-    method: "DELETE",
-    headers: { Authorization: `Bearer ${token}` },
-  });
-};
-
-// ================= STATS =================
-
+// STATS
 export const getGithubStats = async () => {
   const res = await fetch(`${API_BASE}/github`);
   return res.json();
@@ -336,21 +233,8 @@ export const getLeetcodeStats = async () => {
   return res.json();
 };
 
-// ================= HERO =================
-
+// HERO
 export const getHero = async () => {
   const res = await fetch(`${API_BASE}/hero`);
-  return res.json();
-};
-
-export const updateHero = async (hero, token) => {
-  const res = await fetch(`${API_BASE}/hero`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(hero),
-  });
   return res.json();
 };
