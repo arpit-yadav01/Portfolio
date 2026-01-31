@@ -29,12 +29,26 @@ const app = express();
 
 // middlewares
 app.use(express.json());
+import cors from "cors";
+
+const allowedOrigins = [
+  "http://localhost:5173", // local frontend
+  "https://portfolio-ten-woad-26.vercel.app", // your Vercel prod domain
+  "https://portfolio-git-main-arpit-yadav01s-projects.vercel.app", // preview
+];
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://your-frontend-domain.vercel.app",
-    ],
+    origin: function (origin, callback) {
+      // allow requests with no origin (Postman, server-to-server)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
