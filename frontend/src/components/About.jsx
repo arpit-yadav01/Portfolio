@@ -8,19 +8,21 @@ function About() {
   const [github, setGithub] = useState(null);
   const [leetcode, setLeetcode] = useState(null);
 
-  useEffect(() => {
-    Promise.all([
-      fetch("http://localhost:5000/api/about").then(r => r.json()),
-      fetch("http://localhost:5000/api/education").then(r => r.json()),
-      getGithubStats(),
-      getLeetcodeStats(),
-    ]).then(([about, edu, git, lc]) => {
-      setBio(about?.bio || "");
-      setEducation(edu || []);
-      setGithub(git);
-      setLeetcode(lc);
-    });
-  }, []);
+ useEffect(() => {
+  const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5000/api";
+  
+  Promise.all([
+    fetch(`${API_BASE}/about`).then(r => r.json()),
+    fetch(`${API_BASE}/education`).then(r => r.json()),
+    getGithubStats(),
+    getLeetcodeStats(),
+  ]).then(([about, edu, git, lc]) => {
+    setBio(about?.bio || "");
+    setEducation(edu || []);
+    setGithub(git);
+    setLeetcode(lc);
+  });
+}, []);
 
   return (
     <section id="about" className="relative bg-black text-white py-28 px-6 overflow-hidden">
@@ -243,35 +245,47 @@ function About() {
               )}
             </Card>
 
-            {/* GITHUB */}
-            <Card title="GitHub" icon="⭐">
-              {!github ? (
-                <div className="flex items-center justify-center py-8">
-                  <motion.div
-                    className="w-10 h-10 border-4 border-purple-400 border-t-transparent rounded-full"
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                  />
-                </div>
-              ) : (
-                <>
-                  <div className="grid grid-cols-2 gap-4 mb-6">
-                    <MiniStat label="Repos" value={github.repos} />
-                    <MiniStat label="Followers" value={github.followers} />
-                    <MiniStat label="Following" value={github.following} />
-                    <MiniStat label="Stars" value="18" />
-                  </div>
+{/* GITHUB */}
+<Card title="GitHub" icon="⭐">
+  {!github ? (
+    <div className="flex items-center justify-center py-8">
+      <motion.div
+        className="w-10 h-10 border-4 border-purple-400 border-t-transparent rounded-full"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+      />
+    </div>
+  ) : github.error ? (
+    <div className="text-center py-8 text-gray-400">
+      <p className="text-sm">Unable to load GitHub stats</p>
+      <p className="text-xs mt-2 text-gray-500">{github.error}</p>
+    </div>
+  ) : (
+    <>
+      <div className="grid grid-cols-2 gap-4 mb-6">
+        <MiniStat label="Repos" value={github.repos || 0} />
+        <MiniStat label="Followers" value={github.followers || 0} />
+        <MiniStat label="Following" value={github.following || 0} />
+      </div>
 
-                  {/* <div className="space-y-3 text-sm">
-                    <p className="text-gray-400 font-semibold mb-3">Top Languages</p>
-                    <Lang name="Python" percent={56.48} color="bg-blue-500" />
-                    <Lang name="Jupyter Notebook" percent={30.51} color="bg-orange-500" />
-                    <Lang name="HTML" percent={1.68} color="bg-red-500" />
-                    <Lang name="JavaScript" percent={1.6} color="bg-yellow-500" />
-                  </div> */}
-                </>
-              )}
-            </Card>
+      {/* Total Stars - Highlighted */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        whileHover={{ scale: 1.05 }}
+        className="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border border-yellow-500/30 rounded-xl p-4 text-center"
+      >
+        <div className="flex items-center justify-center gap-2 mb-1">
+          <span className="text-2xl">⭐</span>
+          <span className="text-3xl font-bold bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
+            {github.stars || 0}
+          </span>
+        </div>
+        <p className="text-xs text-gray-400 font-medium">Total Stars</p>
+      </motion.div>
+    </>
+  )}
+</Card>
 
           </div>
         </div>

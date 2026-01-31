@@ -8,17 +8,19 @@ function Projects() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/projects")
-      .then((res) => res.json())
-      .then((data) => {
-        setProjects(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching projects:", err);
-        setLoading(false);
-      });
-  }, []);
+  const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5000/api";
+  
+  fetch(`${API_BASE}/projects`)
+    .then((res) => res.json())
+    .then((data) => {
+      setProjects(data);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.error("Error fetching projects:", err);
+      setLoading(false);
+    });
+}, []);
 
   if (loading) {
     return (

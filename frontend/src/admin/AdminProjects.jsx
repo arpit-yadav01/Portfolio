@@ -228,7 +228,10 @@ function AdminProjects() {
   console.log("Images:", images.length);
 
   try {
-    const response = await fetch("http://localhost:5000/api/projects", {
+    const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5000/api";
+
+// Then in handleAdd:
+await fetch(`${API_BASE}/projects`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,

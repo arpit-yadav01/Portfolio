@@ -7,11 +7,13 @@ function ProjectDetail() {
   const [project, setProject] = useState(null);
   const [index, setIndex] = useState(0);
 
-  useEffect(() => {
-    fetch(`http://localhost:5000/api/projects/${id}`)
-      .then((res) => res.json())
-      .then((data) => setProject(data));
-  }, [id]);
+ useEffect(() => {
+  const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5000/api";
+  
+  fetch(`${API_BASE}/projects/${id}`)
+    .then((res) => res.json())
+    .then((data) => setProject(data));
+}, [id]);
 
   if (!project) {
     return (

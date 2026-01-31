@@ -5,18 +5,20 @@ function Experience() {
   const [experience, setExperience] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetch("http://localhost:5000/api/experience")
-      .then((res) => res.json())
-      .then((data) => {
-        setExperience(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching experience:", err);
-        setLoading(false);
-      });
-  }, []);
+ useEffect(() => {
+  const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5000/api";
+  
+  fetch(`${API_BASE}/experience`)
+    .then((res) => res.json())
+    .then((data) => {
+      setExperience(data);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.error("Error fetching experience:", err);
+      setLoading(false);
+    });
+}, []);
 
   return (
     <section id="experience" className="relative bg-black text-white py-24 px-6 overflow-hidden">

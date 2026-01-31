@@ -735,20 +735,23 @@ function Hero() {
   }, []);
 
   /* ================= FETCH HERO DATA ================= */
-  useEffect(() => {
-    fetch("http://localhost:5000/api/hero")
-      .then((res) => res.json())
-      .then(setHero)
-      .catch(() => {
-        setHero({
-          name: "Arpit Yadav",
-          title: "Full Stack Developer • AI Enthusiast",
-          description:
-            "I build scalable web applications and love working on backend systems, AI, and real-world products.",
-          resumeUrl: "https://drive.google.com/file/d/192gF3VbWq4pgcces-ZBsgWYLXf6VwlH5/view?usp=drivesdk",
-        });
+  /* ================= FETCH HERO DATA ================= */
+useEffect(() => {
+  const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5000/api";
+  
+  fetch(`${API_BASE}/hero`)
+    .then((res) => res.json())
+    .then(setHero)
+    .catch(() => {
+      setHero({
+        name: "Arpit Yadav",
+        title: "Full Stack Developer • AI Enthusiast",
+        description:
+          "I build scalable web applications and love working on backend systems, AI, and real-world products.",
+        resumeUrl: "https://drive.google.com/file/d/192gF3VbWq4pgcces-ZBsgWYLXf6VwlH5/view?usp=drivesdk",
       });
-  }, []);
+    });
+}, []);
 
   // Convert Google Drive view link to preview link
   const getResumeUrl = () => {
