@@ -1,5 +1,7 @@
-import express from "express";
 import dotenv from "dotenv";
+dotenv.config(); // 👈 MUST BE FIRST, BEFORE EVERYTHING
+
+import express from "express";
 import cors from "cors";
 
 import connectDB from "./config/db.js";
@@ -17,7 +19,7 @@ import heroRoutes from "./routes/heroRoutes.js";
 
 
 // load env variables
-dotenv.config();
+
 
 // connect database FIRST
 connectDB();
