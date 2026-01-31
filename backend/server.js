@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config(); // 👈 MUST BE FIRST, BEFORE EVERYTHING
+dotenv.config(); // MUST be first
 
 import express from "express";
 import cors from "cors";
@@ -16,33 +16,25 @@ import githubRoutes from "./routes/githubRoutes.js";
 import leetcodeRoutes from "./routes/leetcodeRoutes.js";
 import heroRoutes from "./routes/heroRoutes.js";
 
-
-
-// load env variables
-
-
-// connect database FIRST
+// connect database
 connectDB();
 
-// create app AFTER imports
 const app = express();
 
-// middlewares
+// body parsing
 app.use(express.json());
-import cors from "cors";
 
+// ✅ CORS CONFIG (FIXED)
 const allowedOrigins = [
-  "http://localhost:5173", // local frontend
-  "https://portfolio-ten-woad-26.vercel.app", // your Vercel prod domain
-  "https://portfolio-git-main-arpit-yadav01s-projects.vercel.app", // preview
+  "http://localhost:5173",
+  "https://portfolio-ten-woad-26.vercel.app",
+  "https://portfolio-git-main-arpit-yadav01s-projects.vercel.app",
 ];
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // allow requests with no origin (Postman, server-to-server)
+    origin: (origin, callback) => {
       if (!origin) return callback(null, true);
-
       if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
@@ -53,8 +45,7 @@ app.use(
   })
 );
 
-
-// routes (ONLY AFTER app is created)
+// routes
 app.use("/api/projects", projectRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/skills", skillRoutes);
@@ -71,6 +62,7 @@ app.get("/", (req, res) => {
 });
 
 // start server
-app.listen(5000, () => {
-  console.log("Server started on port 5000");
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
 });
