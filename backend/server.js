@@ -29,7 +29,16 @@ const app = express();
 
 // middlewares
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://your-frontend-domain.vercel.app",
+    ],
+    credentials: true,
+  })
+);
+
 
 // routes (ONLY AFTER app is created)
 app.use("/api/projects", projectRoutes);
