@@ -658,7 +658,7 @@ export default function Skills() {
       {/* DRAGGABLE CONTAINER */}
       <div
         ref={containerRef}
-        className="relative w-full max-w-6xl mx-auto bg-slate-800/50 rounded-3xl shadow-2xl overflow-hidden backdrop-blur-sm border border-slate-700/50"
+        className="relative w-full max-w-8xl mx-auto bg-slate-800/50 rounded-3xl shadow-2xl overflow-hidden backdrop-blur-sm border border-slate-700/50"
         style={{ height: "600px" }}
       >
         {skills.map((skill) =>
@@ -677,7 +677,7 @@ export default function Skills() {
 
       {/* INSTRUCTIONS */}
       <div className="max-w-6xl mx-auto mt-6 text-center text-slate-400 text-sm">
-        💡 Click and drag any skill card • They won't overlap!
+       
       </div>
     </div>
   );
