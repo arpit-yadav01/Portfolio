@@ -15,6 +15,9 @@ import educationRoutes from "./routes/educationRoutes.js";
 import githubRoutes from "./routes/githubRoutes.js";
 import leetcodeRoutes from "./routes/leetcodeRoutes.js";
 import heroRoutes from "./routes/heroRoutes.js";
+import aiAssistantRoutes from "./routes/aiAssistantRoutes.js";
+
+
 
 // connect database
 connectDB();
@@ -23,6 +26,8 @@ const app = express();
 
 // body parsing
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 
 // ✅ CORS CONFIG (FIXED)
 // ✅ CORS CONFIG
@@ -65,7 +70,7 @@ app.use("/api/education", educationRoutes);
 app.use("/api/github", githubRoutes);
 app.use("/api/leetcode", leetcodeRoutes);
 app.use("/api/hero", heroRoutes);
-
+app.use("/api/ai-assistant", aiAssistantRoutes);
 // test route
 app.get("/", (req, res) => {
   res.send("Backend running");

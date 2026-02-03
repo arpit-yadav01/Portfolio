@@ -7,6 +7,9 @@ const experienceSchema = new mongoose.Schema(
     startDate: String,
     endDate: String,
     description: String,
+
+    // ✅ ADD THIS (AUTHORITATIVE)
+    technologiesUsed: [String],
   },
   { timestamps: true }
 );
