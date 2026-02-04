@@ -38,6 +38,8 @@ Project & image management
 
 Cloudinary image uploads
 
+Groy API key
+
 Fully deployed frontend and backend
 
 Run Locally
