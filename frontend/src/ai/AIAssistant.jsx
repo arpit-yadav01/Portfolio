@@ -165,13 +165,17 @@ const AIAssistant = () => {
             <svg className="w-8 h-8 text-white relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
             </svg>
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold"
-            >
-              AI
-            </motion.div>
+
+           <motion.div
+  initial={{ scale: 0 }}
+  animate={{ scale: 1 }}
+  transition={{ type: "spring", stiffness: 300 }}
+  className="absolute -top-3 -right-3 bg-red-500 rounded-full px-3 py-1 flex items-center justify-center text-white text-xs font-semibold whitespace-nowrap shadow-md"
+>
+  I am here to help you ?
+</motion.div>
+
+
           </motion.button>
         )}
       </AnimatePresence>
