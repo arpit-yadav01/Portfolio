@@ -44,7 +44,6 @@
 // export default Portfolio;
 
 
-
 import { useState } from "react";
 import { DataProvider } from "./context/DataProvider";
 import AIWelcome from "./components/AIWelcome";
@@ -66,10 +65,9 @@ function Portfolio() {
   const sectionIds = [
     "hero",
     "about",
-    "education",
-    "skills",
-    "projects",
     "experience",
+    "projects",
+    "skills",
     "contact",
   ];
 
@@ -77,21 +75,42 @@ function Portfolio() {
 
   return (
     <>
-      {/* AI Welcome Gate - shows first, hides API loading */}
-      {showWelcome && <AIWelcome onFinish={() => setShowWelcome(false)} />}
+      {/* AI Welcome Gate */}
+      {showWelcome && (
+        <AIWelcome onFinish={() => setShowWelcome(false)} />
+      )}
 
-      {/* Main Portfolio - wrapped in DataProvider for optimized loading */}
       <DataProvider>
         <Navbar />
 
-        <section id="hero"><Hero /></section>
-        <section id="about"><About /></section>
-        <section id="skills"><Skills /></section>
-        <section id="projects"><Projects /></section>
-        <section id="experience"><Experience /></section>
-        <section id="contact"><Contact /></section>
+        {/* ✅ Correct Order */}
+        <section id="hero">
+          <Hero />
+        </section>
+
+        <section id="about">
+          <About />
+        </section>
+
+        <section id="experience">
+          <Experience />
+        </section>
+
+        <section id="projects">
+          <Projects />
+        </section>
+
+        <section id="skills">
+          <Skills />
+        </section>
+
+        <section id="contact">
+          <Contact />
+        </section>
 
         <Footer />
+
+        {/* AI Assistant */}
         <AIAssistant activeSection={activeSection} />
       </DataProvider>
     </>
