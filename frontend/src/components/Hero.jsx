@@ -1121,7 +1121,7 @@ const FALLBACK_HERO = {
   name: "Arpit Yadav",
   title: "Full Stack Developer • AI Enthusiast",
   description: "I build scalable web applications and love working on backend systems, AI, and real-world products.",
-  resumeUrl: "https://drive.google.com/file/d/192gF3VbWq4pgcces-ZBsgWYLXf6VwlH5/view?usp=drivesdk",
+  resumeUrl: "https://drive.google.com/file/d/11Hy3BcltKE4BiIofsx1jicjguSTdzRyn/view?usp=drivesdk",
 };
 
 // ✅ Reduced animations for faster LCP
