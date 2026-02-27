@@ -1112,6 +1112,9 @@
 // export default Hero;
 
 
+
+
+
 import { motion } from "framer-motion";
 import { useEffect, useState, useMemo } from "react";
 import { usePortfolioData } from "../context/DataProvider";
