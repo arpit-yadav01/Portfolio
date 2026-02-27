@@ -1115,6 +1115,229 @@
 
 
 
+// import { motion } from "framer-motion";
+// import { useEffect, useState, useMemo } from "react";
+// import { usePortfolioData } from "../context/DataProvider";
+
+// // ✅ INSTANT FALLBACK DATA - Renders immediately, updates when API loads
+// const FALLBACK_HERO = {
+//   name: "Arpit Yadav",
+//   title: "Full Stack Developer • AI Enthusiast",
+//   description: "I build scalable web applications and love working on backend systems, AI, and real-world products.",
+//   resumeUrl: "https://drive.google.com/file/d/11Hy3BcltKE4BiIofsx1jicjguSTdzRyn/view?usp=drivesdk",
+// };
+
+// // ✅ Reduced animations for faster LCP
+// const SHAPES = Array.from({ length: 8 }, (_, i) => ({
+//   id: i,
+//   left: (i * 12.5) % 100,
+//   top: (i * 25) % 100,
+//   xDrift: ((i * 41) % 200) - 100,
+//   yDrift: ((i * 31) % 200) - 100,
+//   duration: 15 + ((i * 7) % 10),
+//   delay: (i * 0.33) % 5,
+//   type: i % 3,
+// }));
+
+// const CODE_SYMBOLS = ["</>", "{ }", "[ ]", "( )"];
+
+// function Hero() {
+//   const { data } = usePortfolioData();
+//   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+//   useEffect(() => {
+//     const handleMouseMove = (e) => {
+//       setMousePosition({
+//         x: (e.clientX / window.innerWidth) * 2 - 1,
+//         y: (e.clientY / window.innerHeight) * 2 - 1,
+//       });
+//     };
+//     window.addEventListener("mousemove", handleMouseMove);
+//     return () => window.removeEventListener("mousemove", handleMouseMove);
+//   }, []);
+
+//   // ✅ CRITICAL: Use fallback immediately
+//   const hero = useMemo(() => {
+//     return data?.hero || FALLBACK_HERO;
+//   }, [data]);
+
+//   const getResumeUrl = () => {
+//     if (!hero?.resumeUrl || hero.resumeUrl === "#") return "#";
+//     if (hero.resumeUrl.includes("drive.google.com")) {
+//       const match = hero.resumeUrl.match(/\/d\/([^/]+)/);
+//       if (match) return `https://drive.google.com/file/d/${match[1]}/preview`;
+//     }
+//     return hero.resumeUrl;
+//   };
+
+//   return (
+//     <section id="home" className="relative min-h-screen flex items-center justify-center px-4 md:px-6 overflow-hidden bg-black">
+//       <div className="absolute inset-0 overflow-hidden">
+//         {/* Simplified Base Gradient - No animation initially */}
+//         <div className="absolute inset-0 bg-gradient-radial from-blue-900/20 via-transparent to-transparent" />
+
+//         {/* Grid - Static initially */}
+//         <svg className="absolute inset-0 w-full h-full opacity-20" aria-hidden="true">
+//           <defs>
+//             <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+//               <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(59, 130, 246, 0.3)" strokeWidth="0.5" />
+//             </pattern>
+//           </defs>
+//           <rect width="100%" height="100%" fill="url(#grid)" />
+//         </svg>
+
+//         {/* Reduced Shapes - Only 8 instead of 15 */}
+//         {SHAPES.map((s) => (
+//           <motion.div
+//             key={`shape-${s.id}`}
+//             className="absolute transform-gpu"
+//             style={{ left: `${s.left}%`, top: `${s.top}%`, willChange: "transform" }}
+//             initial={{ opacity: 0.2 }}
+//             animate={{ x: [0, s.xDrift, 0], y: [0, s.yDrift, 0], rotate: [0, 360], opacity: [0.2, 0.6, 0.2] }}
+//             transition={{ duration: s.duration, repeat: Infinity, delay: s.delay, ease: "easeInOut" }}
+//           >
+//             {s.type === 0 ? (
+//               <div className="w-8 h-8 md:w-12 md:h-12 border-2 border-cyan-400/30 rotate-45" />
+//             ) : s.type === 1 ? (
+//               <div className="w-8 h-8 md:w-12 md:h-12 border-2 border-purple-400/30 rounded-full" />
+//             ) : (
+//               <div className="w-0 h-0 border-l-[16px] md:border-l-[24px] border-l-transparent border-r-[16px] md:border-r-[24px] border-r-transparent border-b-[28px] md:border-b-[40px] border-b-blue-400/30" />
+//             )}
+//           </motion.div>
+//         ))}
+
+//         {/* Glowing Orbs - Simplified */}
+//         <motion.div
+//           className="absolute rounded-full opacity-20 blur-3xl pointer-events-none transform-gpu"
+//           style={{ width: 700, height: 700, background: "radial-gradient(circle, rgba(59,130,246,0.6) 0%, transparent 70%)", top: "20%", left: "15%", willChange: "transform" }}
+//           animate={{ x: mousePosition.x * 50, y: mousePosition.y * 50 }}
+//           transition={{ type: "spring", stiffness: 50, damping: 30 }}
+//         />
+//         <motion.div
+//           className="absolute rounded-full opacity-20 blur-3xl pointer-events-none transform-gpu"
+//           style={{ width: 600, height: 600, background: "radial-gradient(circle, rgba(147,51,234,0.6) 0%, transparent 70%)", bottom: "20%", right: "15%", willChange: "transform" }}
+//           animate={{ x: mousePosition.x * -50, y: mousePosition.y * -50 }}
+//           transition={{ type: "spring", stiffness: 50, damping: 30 }}
+//         />
+
+//         {/* Code Symbols - Reduced to 4 */}
+//         {CODE_SYMBOLS.map((symbol, i) => (
+//           <motion.div
+//             key={`symbol-${i}`}
+//             className="absolute font-mono text-lg md:text-2xl font-bold opacity-10"
+//             style={{ left: `${15 + i * 25}%`, top: `${30 + (i % 2) * 40}%`, color: i % 2 === 0 ? "#3b82f6" : "#9333ea", willChange: "transform, opacity" }}
+//             animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
+//             transition={{ duration: 4, repeat: Infinity, delay: i * 0.5, ease: "easeInOut" }}
+//           >
+//             {symbol}
+//           </motion.div>
+//         ))}
+//       </div>
+
+//       {/* ✅ HERO CONTENT - INSTANT RENDER with FIXED HEIGHTS */}
+//       <div className="relative z-10 max-w-4xl w-full text-center px-2 md:px-4">
+//         {/* Badge - Instant with fixed height */}
+//         <div className="inline-block mb-4 md:mb-6" style={{ minHeight: '40px' }}>
+//           <span className="px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-cyan-500/20 border border-blue-500/50 rounded-full text-xs md:text-sm text-blue-400 font-medium backdrop-blur-sm shadow-lg shadow-blue-500/20">
+//             👋 Welcome to my portfolio
+//           </span>
+//         </div>
+
+//         {/* H1 - FIXED HEIGHT to prevent CLS */}
+//         <div style={{ minHeight: '60px' }} className="sm:min-h-[72px] md:min-h-[88px] lg:min-h-[112px] mb-4 md:mb-6">
+//           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
+//             <span className="text-white">Hi, I'm </span>
+//             <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-400 bg-clip-text text-transparent">
+//               {hero.name}
+//             </span>
+//           </h1>
+//         </div>
+
+//         {/* H2 - Fixed height */}
+//         <div style={{ minHeight: '32px' }} className="sm:min-h-[36px] md:min-h-[40px] lg:min-h-[48px] mb-4 md:mb-6">
+//           <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-300 font-light">
+//             {hero.title}
+//           </h2>
+//         </div>
+
+//         {/* Description - Fixed height */}
+//         <div style={{ minHeight: '60px' }} className="md:min-h-[80px] mb-8 md:mb-10">
+//           <p className="text-gray-400 text-sm md:text-lg leading-relaxed max-w-2xl mx-auto">
+//             {hero.description}
+//           </p>
+//         </div>
+
+//         {/* Buttons - Fixed height container */}
+//         <div style={{ minHeight: '56px' }} className="md:min-h-[64px]">
+//           <div className="flex gap-3 md:gap-4 justify-center flex-wrap">
+//             <motion.a 
+//               href="#contact" 
+//               whileHover={{ scale: 1.05, y: -3 }} 
+//               whileTap={{ scale: 0.95 }} 
+//               className="relative px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold rounded-full overflow-hidden shadow-lg shadow-blue-500/50 text-sm md:text-base transform-gpu"
+//               style={{ willChange: "transform" }}
+//             >
+//               <motion.span 
+//                 className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-500" 
+//                 initial={{ x: "-100%" }} 
+//                 whileHover={{ x: "0%" }} 
+//                 transition={{ duration: 0.3 }} 
+//               />
+//               <span className="relative z-10">Contact Me</span>
+//             </motion.a>
+
+//             <motion.a 
+//               href="#projects" 
+//               whileHover={{ scale: 1.05, y: -3 }} 
+//               whileTap={{ scale: 0.95 }} 
+//               className="px-6 md:px-8 py-3 md:py-4 border-2 border-gray-600 text-gray-300 font-semibold rounded-full hover:border-cyan-400 hover:text-cyan-400 hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 text-sm md:text-base transform-gpu"
+//               style={{ willChange: "transform" }}
+//             >
+//               View Projects
+//             </motion.a>
+
+//             <motion.a 
+//               href={getResumeUrl()} 
+//               target="_blank" 
+//               rel="noreferrer" 
+//               whileHover={{ scale: 1.05, y: -3 }} 
+//               whileTap={{ scale: 0.95 }} 
+//               className="px-6 md:px-8 py-3 md:py-4 border-2 border-purple-500 text-purple-400 font-semibold rounded-full hover:bg-purple-500 hover:text-white hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 text-sm md:text-base transform-gpu"
+//               style={{ willChange: "transform" }}
+//             >
+//               📄 Resume
+//             </motion.a>
+//           </div>
+//         </div>
+
+//         {/* Scroll indicator */}
+//         <motion.div 
+//           initial={{ opacity: 0 }} 
+//           animate={{ opacity: 1 }} 
+//           transition={{ delay: 1 }} 
+//           className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 hidden md:block"
+//           style={{ willChange: "opacity" }}
+//         >
+//           <motion.div 
+//             animate={{ y: [0, 10, 0] }} 
+//             transition={{ duration: 2, repeat: Infinity }} 
+//             className="text-gray-500 text-sm flex flex-col items-center gap-2"
+//             style={{ willChange: "transform" }}
+//           >
+//             <span>Scroll Down</span>
+//             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+//             </svg>
+//           </motion.div>
+//         </motion.div>
+//       </div>
+//     </section>
+//   );
+// }
+
+// export default Hero;
+
+
 import { motion } from "framer-motion";
 import { useEffect, useState, useMemo } from "react";
 import { usePortfolioData } from "../context/DataProvider";
@@ -1127,7 +1350,6 @@ const FALLBACK_HERO = {
   resumeUrl: "https://drive.google.com/file/d/11Hy3BcltKE4BiIofsx1jicjguSTdzRyn/view?usp=drivesdk",
 };
 
-// ✅ Reduced animations for faster LCP
 const SHAPES = Array.from({ length: 8 }, (_, i) => ({
   id: i,
   left: (i * 12.5) % 100,
@@ -1161,22 +1383,28 @@ function Hero() {
     return data?.hero || FALLBACK_HERO;
   }, [data]);
 
+  // ✅ Handles Google Drive links, direct PDF links, and any other URL
   const getResumeUrl = () => {
-    if (!hero?.resumeUrl || hero.resumeUrl === "#") return "#";
-    if (hero.resumeUrl.includes("drive.google.com")) {
-      const match = hero.resumeUrl.match(/\/d\/([^/]+)/);
-      if (match) return `https://drive.google.com/file/d/${match[1]}/preview`;
+    const url = hero?.resumeUrl;
+    if (!url || url === "#" || url.trim() === "") return "#";
+
+    // Convert Google Drive share link → direct preview link
+    if (url.includes("drive.google.com")) {
+      const match = url.match(/\/d\/([^/]+)/);
+      if (match) return `https://drive.google.com/file/d/${match[1]}/view`;
     }
-    return hero.resumeUrl;
+
+    // Any other valid URL (direct PDF, Dropbox, etc.) — use as-is
+    return url;
   };
 
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center px-4 md:px-6 overflow-hidden bg-black">
       <div className="absolute inset-0 overflow-hidden">
-        {/* Simplified Base Gradient - No animation initially */}
+        {/* Simplified Base Gradient */}
         <div className="absolute inset-0 bg-gradient-radial from-blue-900/20 via-transparent to-transparent" />
 
-        {/* Grid - Static initially */}
+        {/* Grid */}
         <svg className="absolute inset-0 w-full h-full opacity-20" aria-hidden="true">
           <defs>
             <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -1186,7 +1414,6 @@ function Hero() {
           <rect width="100%" height="100%" fill="url(#grid)" />
         </svg>
 
-        {/* Reduced Shapes - Only 8 instead of 15 */}
         {SHAPES.map((s) => (
           <motion.div
             key={`shape-${s.id}`}
@@ -1206,7 +1433,6 @@ function Hero() {
           </motion.div>
         ))}
 
-        {/* Glowing Orbs - Simplified */}
         <motion.div
           className="absolute rounded-full opacity-20 blur-3xl pointer-events-none transform-gpu"
           style={{ width: 700, height: 700, background: "radial-gradient(circle, rgba(59,130,246,0.6) 0%, transparent 70%)", top: "20%", left: "15%", willChange: "transform" }}
@@ -1220,7 +1446,6 @@ function Hero() {
           transition={{ type: "spring", stiffness: 50, damping: 30 }}
         />
 
-        {/* Code Symbols - Reduced to 4 */}
         {CODE_SYMBOLS.map((symbol, i) => (
           <motion.div
             key={`symbol-${i}`}
@@ -1234,16 +1459,14 @@ function Hero() {
         ))}
       </div>
 
-      {/* ✅ HERO CONTENT - INSTANT RENDER with FIXED HEIGHTS */}
+      {/* HERO CONTENT */}
       <div className="relative z-10 max-w-4xl w-full text-center px-2 md:px-4">
-        {/* Badge - Instant with fixed height */}
         <div className="inline-block mb-4 md:mb-6" style={{ minHeight: '40px' }}>
           <span className="px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-cyan-500/20 border border-blue-500/50 rounded-full text-xs md:text-sm text-blue-400 font-medium backdrop-blur-sm shadow-lg shadow-blue-500/20">
             👋 Welcome to my portfolio
           </span>
         </div>
 
-        {/* H1 - FIXED HEIGHT to prevent CLS */}
         <div style={{ minHeight: '60px' }} className="sm:min-h-[72px] md:min-h-[88px] lg:min-h-[112px] mb-4 md:mb-6">
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
             <span className="text-white">Hi, I'm </span>
@@ -1253,74 +1476,73 @@ function Hero() {
           </h1>
         </div>
 
-        {/* H2 - Fixed height */}
         <div style={{ minHeight: '32px' }} className="sm:min-h-[36px] md:min-h-[40px] lg:min-h-[48px] mb-4 md:mb-6">
           <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-300 font-light">
             {hero.title}
           </h2>
         </div>
 
-        {/* Description - Fixed height */}
         <div style={{ minHeight: '60px' }} className="md:min-h-[80px] mb-8 md:mb-10">
           <p className="text-gray-400 text-sm md:text-lg leading-relaxed max-w-2xl mx-auto">
             {hero.description}
           </p>
         </div>
 
-        {/* Buttons - Fixed height container */}
         <div style={{ minHeight: '56px' }} className="md:min-h-[64px]">
           <div className="flex gap-3 md:gap-4 justify-center flex-wrap">
-            <motion.a 
-              href="#contact" 
-              whileHover={{ scale: 1.05, y: -3 }} 
-              whileTap={{ scale: 0.95 }} 
+            <motion.a
+              href="#contact"
+              whileHover={{ scale: 1.05, y: -3 }}
+              whileTap={{ scale: 0.95 }}
               className="relative px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold rounded-full overflow-hidden shadow-lg shadow-blue-500/50 text-sm md:text-base transform-gpu"
               style={{ willChange: "transform" }}
             >
-              <motion.span 
-                className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-500" 
-                initial={{ x: "-100%" }} 
-                whileHover={{ x: "0%" }} 
-                transition={{ duration: 0.3 }} 
+              <motion.span
+                className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-500"
+                initial={{ x: "-100%" }}
+                whileHover={{ x: "0%" }}
+                transition={{ duration: 0.3 }}
               />
               <span className="relative z-10">Contact Me</span>
             </motion.a>
 
-            <motion.a 
-              href="#projects" 
-              whileHover={{ scale: 1.05, y: -3 }} 
-              whileTap={{ scale: 0.95 }} 
+            <motion.a
+              href="#projects"
+              whileHover={{ scale: 1.05, y: -3 }}
+              whileTap={{ scale: 0.95 }}
               className="px-6 md:px-8 py-3 md:py-4 border-2 border-gray-600 text-gray-300 font-semibold rounded-full hover:border-cyan-400 hover:text-cyan-400 hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 text-sm md:text-base transform-gpu"
               style={{ willChange: "transform" }}
             >
               View Projects
             </motion.a>
 
-            <motion.a 
-              href={getResumeUrl()} 
-              target="_blank" 
-              rel="noreferrer" 
-              whileHover={{ scale: 1.05, y: -3 }} 
-              whileTap={{ scale: 0.95 }} 
-              className="px-6 md:px-8 py-3 md:py-4 border-2 border-purple-500 text-purple-400 font-semibold rounded-full hover:bg-purple-500 hover:text-white hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 text-sm md:text-base transform-gpu"
-              style={{ willChange: "transform" }}
-            >
-              📄 Resume
-            </motion.a>
+            {/* ✅ Resume button — only shown if a URL is set */}
+            {getResumeUrl() !== "#" && (
+              <motion.a
+                href={getResumeUrl()}
+                target="_blank"
+                rel="noreferrer"
+                whileHover={{ scale: 1.05, y: -3 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-6 md:px-8 py-3 md:py-4 border-2 border-purple-500 text-purple-400 font-semibold rounded-full hover:bg-purple-500 hover:text-white hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 text-sm md:text-base transform-gpu"
+                style={{ willChange: "transform" }}
+              >
+                📄 Resume
+              </motion.a>
+            )}
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <motion.div 
-          initial={{ opacity: 0 }} 
-          animate={{ opacity: 1 }} 
-          transition={{ delay: 1 }} 
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
           className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 hidden md:block"
           style={{ willChange: "opacity" }}
         >
-          <motion.div 
-            animate={{ y: [0, 10, 0] }} 
-            transition={{ duration: 2, repeat: Infinity }} 
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
             className="text-gray-500 text-sm flex flex-col items-center gap-2"
             style={{ willChange: "transform" }}
           >
