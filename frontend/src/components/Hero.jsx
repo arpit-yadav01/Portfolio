@@ -1554,7 +1554,6 @@ function Hero() {
         </motion.div>
       </div>
     </section>
-    
   );
 }
 
