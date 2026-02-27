@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { updateAbout } from "../services/api";
 
+import AdminHero from "./AdminHero";
 import AdminEducation from "./AdminEducation";
 import AdminSkills from "./AdminSkills";
 import AdminProjects from "./AdminProjects";
@@ -29,15 +30,16 @@ function AdminDashboard() {
   return (
     <div className="min-h-screen bg-black text-white p-8 space-y-20">
       {/* PAGE TITLE */}
-      <h1 className="text-3xl font-bold">
-        Admin Dashboard
-      </h1>
+      <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+
+      {/* ================= HERO SECTION ================= */}
+      <section>
+        <AdminHero />
+      </section>
 
       {/* ================= ABOUT SECTION ================= */}
       <section className="max-w-4xl">
-        <h2 className="text-2xl font-semibold mb-4">
-          Edit About
-        </h2>
+        <h2 className="text-2xl font-semibold mb-4">Edit About</h2>
 
         <textarea
           className="w-full h-40 p-4 bg-gray-900 border border-gray-700 rounded-lg"
