@@ -6,6 +6,7 @@ The project includes a secure admin panel, dynamic content management, and cloud
 🔗 Live Website
 https://portfolio-ten-woad-26.vercel.app/
 
+Run Locally
 Backend
 cd backend
 npm install
@@ -52,5 +53,5 @@ Groy API key
 
 Fully deployed frontend and backend
 
-Run Locally
+
 
